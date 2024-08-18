@@ -16,7 +16,8 @@ class GlobalExceptionHandler(
 
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(e: BusinessException): ResponseEntity<ApiResponse<Unit>> {
-        e.printLog()
+        log.warn(e.errorMessage)
+        log.debug(e.stackTraceToString())
 
         val response = ApiResponse.error(
             e.status.value().toString(),

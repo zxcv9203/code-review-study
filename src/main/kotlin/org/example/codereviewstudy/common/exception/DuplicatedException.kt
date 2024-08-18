@@ -7,8 +7,6 @@ abstract class DuplicatedException(
     message: String,
     private val duplicateValue: Any? = null,
 ) : BusinessException(status, message) {
-
-    override fun printLog() {
-        log.warn("$message : 중복 값: $duplicateValue")
-    }
+    override val errorMessage: String
+        get() = "$message 중복 값: $duplicateValue"
 }

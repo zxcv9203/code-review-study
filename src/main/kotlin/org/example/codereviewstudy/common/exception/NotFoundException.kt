@@ -8,7 +8,7 @@ abstract class NotFoundException(
     private val notFoundValue: Any? = null,
 ) : BusinessException(status, message) {
 
-    override fun printLog() {
-        log.warn("$message : 해당 값을 찾을 수 없습니다.: $notFoundValue")
-    }
+    override val errorMessage: String
+        get() = "$message 해당 값을 찾을 수 없습니다.: $notFoundValue"
+
 }

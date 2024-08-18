@@ -9,7 +9,7 @@ abstract class NotMatchedException(
     private val actualValue: Any? = null,
 ) : BusinessException(status, message) {
 
-        override fun printLog() {
-            log.warn("$message : 예상 값: $expectedValue, 실제 값: $actualValue")
-        }
+    override val errorMessage: String
+        get() = "$message : 예상 값: $expectedValue, 실제 값: $actualValue"
+
 }
