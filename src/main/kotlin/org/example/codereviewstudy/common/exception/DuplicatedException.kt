@@ -3,8 +3,8 @@ package org.example.codereviewstudy.common.exception
 import org.springframework.http.HttpStatus
 
 abstract class DuplicatedException(
-    status: HttpStatus = HttpStatus.BAD_REQUEST,
     message: String,
+    status: HttpStatus = HttpStatus.BAD_REQUEST,
     private val duplicateValue: Any? = null,
 ) : BusinessException(status, message) {
     override val errorMessage: String
