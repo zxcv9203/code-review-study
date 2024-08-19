@@ -1,11 +1,15 @@
 CREATE TABLE IF NOT EXISTS `users`
 (
-    id         BIGINT       NOT NULL PRIMARY KEY,
-    username   VARCHAR(20) NOT NULL,
+    id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username   VARCHAR(20)  NOT NULL,
     password   VARCHAR(255) NOT NULL,
     created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+
 );
+
+ALTER TABLE `users`
+    ADD INDEX `idx_username` (`username`);
 
 CREATE TABLE IF NOT EXISTS `posts`
 (
