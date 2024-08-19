@@ -1,6 +1,7 @@
 package org.example.codereviewstudy.common.exception.handler
 
 import org.example.codereviewstudy.common.exception.BusinessException
+import org.example.codereviewstudy.common.exception.model.ValidationError
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.http.converter.HttpMessageNotWritableException
 import org.springframework.validation.BindException
+import org.springframework.validation.FieldError
 import org.springframework.validation.method.MethodValidationException
 import org.springframework.web.ErrorResponseException
 import org.springframework.web.HttpMediaTypeNotAcceptableException
@@ -40,11 +42,43 @@ class GlobalExceptionHandler(
         log.debug(e.stackTraceToString())
 
         val response = ApiResponse.error(
-            e.status.value().toString(),
+            e.status,
             e.message
         )
 
         return ResponseEntity.status(e.status)
+            .body(response)
+    }
+
+    @ExceptionHandler(NoResourceFoundException::class)
+    fun handleNoResourceFoundException(e: NoResourceFoundException): ResponseEntity<ApiResponse<Unit>> {
+        log.warn("$e")
+
+        val response = ApiResponse.error(
+            HttpStatus.NOT_FOUND,
+            "요청한 리소스를 찾을 수 없습니다."
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(response)
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidation(e: BindException): ResponseEntity<ApiResponse<List<ValidationError>>> {
+        log.warn("Validation Error $e")
+
+        val errors = e.bindingResult.allErrors.map { error ->
+            val fieldError = error as FieldError
+            ValidationError(fieldError.field, fieldError.defaultMessage ?: "Unknown error")
+        }
+
+        val response = ApiResponse.error(
+            HttpStatus.BAD_REQUEST,
+            "잘못된 요청입니다.",
+            errors
+        )
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(response)
     }
 
@@ -56,10 +90,8 @@ class GlobalExceptionHandler(
         MissingServletRequestParameterException::class,
         MissingServletRequestPartException::class,
         ServletRequestBindingException::class,
-        MethodArgumentNotValidException::class,
         HandlerMethodValidationException::class,
         NoHandlerFoundException::class,
-        NoResourceFoundException::class,
         AsyncRequestTimeoutException::class,
         ErrorResponseException::class,
         MaxUploadSizeExceededException::class,
@@ -70,11 +102,11 @@ class GlobalExceptionHandler(
         MethodValidationException::class,
         BindException::class
     )
-    fun handle(e: Exception): ResponseEntity<ApiResponse<Unit>> {
+    fun handleHttpRequest(e: Exception): ResponseEntity<ApiResponse<Unit>> {
         log.warn("$e")
 
         val response = ApiResponse.error(
-            HttpStatus.BAD_REQUEST.value().toString(),
+            HttpStatus.BAD_REQUEST,
             "잘못된 요청입니다."
         )
 
@@ -87,7 +119,7 @@ class GlobalExceptionHandler(
         log.error("서버 에러 : ", e)
 
         val response = ApiResponse.error(
-            HttpStatus.INTERNAL_SERVER_ERROR.value().toString(),
+            HttpStatus.INTERNAL_SERVER_ERROR,
             "서버 에러가 발생했습니다."
         )
 
