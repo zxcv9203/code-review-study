@@ -11,6 +11,7 @@ version = "0.0.1-SNAPSHOT"
 val kotestVersion = "5.9.1"
 val kotestSpringExtensionVersion = "1.3.0"
 val mockkVersion = "1.13.12"
+val jjwtVersion = "0.12.6"
 
 java {
     toolchain {
@@ -48,6 +49,11 @@ dependencies {
 
     // passwordEncoder
     implementation("org.springframework.security:spring-security-crypto")
+
+    // jjwt
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 }
 
 kotlin {
