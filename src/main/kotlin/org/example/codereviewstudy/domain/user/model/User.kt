@@ -7,7 +7,7 @@ class User(
 
     var password: String,
 
-    val id: Long? = null,
+    val id: Long = 0,
 )
 
 fun User.toJpaEntity(): UserJpaEntity {
