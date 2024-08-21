@@ -13,3 +13,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  secret: exampleJwtKeyexampleJwtKeyexampleJwtKeyexampleJwtKeyexampleJwtKeyexampleJwtKe
+  expiration: 86400000
+  issuer: codereviewstudy
