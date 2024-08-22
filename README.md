@@ -1,5 +1,10 @@
 # 게시판 서비스
 
+## API 문서 주소
+실행 후
+
+- http://localhost:8080/docs/index.html
+
 ## 기능
 
 - 회원가입
