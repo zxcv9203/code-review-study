@@ -39,4 +39,13 @@ class JwtTokenProvider(
             .parseSignedClaims(token)
             .payload
     }
+
+    fun validate(token: String): Boolean {
+        return try {
+            getClamis(token)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
