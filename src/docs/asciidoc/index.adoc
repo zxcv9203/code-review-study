@@ -1,0 +1,73 @@
+:toc-title: 게시판 API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:sectlinks:
+:docinfo: shared-head
+:toc: left
+:toclevels: 2
+:sectnums:
+:hardbreaks:
+:snippets: {docdir}/build/generated-snippets
+ifndef::snippets[]
+endif::[]
+
+= 게시판 API
+
+== 인증 API
+
+=== 회원가입
+
+==== POST /api/signup
+
+===== curl 스크립트
+include::{snippets}/signup/success/curl-request.adoc[]
+
+===== 요청
+include::{snippets}/signup/success/http-request.adoc[]
+include::{snippets}/signup/success/request-fields.adoc[]
+
+===== 응답 (성공)
+include::{snippets}/signup/success/http-response.adoc[]
+include::{snippets}/signup/success/response-fields.adoc[]
+
+===== 응답 (실패)
+.유효하지 않은 값으로 요청한 경우 (400)
+include::{snippets}/signup/fail/invalid-request/http-response.adoc[]
+include::{snippets}/signup/fail/invalid-request/response-fields.adoc[]
+
+
+.이미 존재하는 사용자인 경우 (400)
+include::{snippets}/signup/fail/duplicated-username/response-body.adoc[]
+include::{snippets}/signup/fail/duplicated-username/response-fields.adoc[]
+
+=== 로그인
+
+==== POST /api/login
+
+===== curl 스크립트
+include::{snippets}/login/success/curl-request.adoc[]
+
+===== 요청
+include::{snippets}/login/success/http-request.adoc[]
+include::{snippets}/login/success/request-fields.adoc[]
+
+===== 응답 (성공)
+include::{snippets}/login/success/http-response.adoc[]
+include::{snippets}/login/success/response-headers.adoc[]
+include::{snippets}/login/success/response-fields.adoc[]
+
+===== 응답 (실패)
+.유효하지 않은 값으로 요청한 경우 (400)
+include::{snippets}/login/fail/invalid-request/http-response.adoc[]
+include::{snippets}/login/fail/invalid-request/response-fields.adoc[]
+
+.존재하지 않는 사용자인 경우 (400)
+include::{snippets}/login/fail/not-exists-username/http-response.adoc[]
+include::{snippets}/login/fail/not-exists-username/response-fields.adoc[]
+
+.비밀번호가 일치하지 않는 경우 (400)
+include::{snippets}/login/fail/not-match-password/http-response.adoc[]
+include::{snippets}/login/fail/not-match-password/response-fields.adoc[]
+
+

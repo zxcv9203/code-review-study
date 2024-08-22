@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.9.24"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
 group = "org.example"
@@ -31,6 +32,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     runtimeOnly("com.h2database:h2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -64,4 +66,31 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.bootJar {
+    dependsOn("asciidoctor")
+    from("/build/docs/asciidoc") {
+        into("BOOT-INF/classes/static/docs")
+    }
+}
+
+tasks.build {
+    dependsOn("copyDocs")
+}
+tasks.processResources {
+    dependsOn("copyDocs")
+}
+
+tasks.register<Copy>("copyDocs") {
+    description = "Restdocs 문서를 resources/static/docs 디렉토리로 복사합니다."
+    group = "documentation"
+
+    dependsOn("asciidoctor")
+
+    destinationDir = file("src/main/resources/static/docs")
+    delete("src/main/resources/static/docs")
+    from("build/docs/asciidoc") {
+        this.into("")
+    }
 }
