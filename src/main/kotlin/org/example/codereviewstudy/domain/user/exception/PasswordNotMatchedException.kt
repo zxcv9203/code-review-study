@@ -1,16 +1,15 @@
 package org.example.codereviewstudy.domain.user.exception
 
-import org.example.codereviewstudy.common.exception.NotMatchedException
+import org.example.codereviewstudy.common.exception.AuthenticationException
+import org.springframework.http.HttpStatus
 
 class PasswordNotMatchedException(
-    encryptPassword: String,
+    private val encryptPassword: String,
     val password: String,
-    override val message: String = "비밀번호가 일치하지 않습니다.",
-): NotMatchedException(
-    message = message,
-    expectedValue = password,
-    actualValue = encryptPassword,
+) : AuthenticationException(
+    status = HttpStatus.BAD_REQUEST,
+    value = password,
 ) {
     override val errorMessage: String
-        get() = "$message 입력된 비밀번호: $password"
+        get() = "비밀번호가 일치하지 않습니다. 입력된 비밀번호: $password $encryptPassword"
 }

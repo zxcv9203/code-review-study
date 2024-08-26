@@ -241,7 +241,7 @@ class AuthControllerTest(
                     httpRequest
                         .andExpect(status().isBadRequest)
                         .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
-                        .andExpect(jsonPath("$.message").value("비밀번호가 일치하지 않습니다."))
+                        .andExpect(jsonPath("$.message").value("사용자 이름 혹은 비밀번호를 다시 확인해주세요."))
                         .andDo(
                             document(
                                 "login/fail/not-match-password",
