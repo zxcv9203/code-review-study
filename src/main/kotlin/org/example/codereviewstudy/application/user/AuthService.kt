@@ -1,11 +1,12 @@
 package org.example.codereviewstudy.application.user
 
-import org.example.codereviewstudy.domain.user.exception.PasswordNotMatchedException
+import org.example.codereviewstudy.infrastructure.auth.exception.LoginUserNameNotFoundException
 import org.example.codereviewstudy.domain.user.exception.UsernameDuplicatedException
 import org.example.codereviewstudy.domain.user.model.User
 import org.example.codereviewstudy.domain.user.port.UserQueryPort
 import org.example.codereviewstudy.domain.user.port.UserRegistrationPort
 import org.example.codereviewstudy.domain.user.port.UserValidationPort
+import org.example.codereviewstudy.infrastructure.auth.exception.PasswordNotMatchedException
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.LoginRequest
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.SignupRequest
@@ -41,6 +42,8 @@ class AuthService(
 
     fun login(request: LoginRequest): LoginResponse {
         val user = userQueryPort.findByUsername(request.username)
+            ?: throw LoginUserNameNotFoundException(request.username)
+
         if (!passwordEncoder.matches(request.password, user.password)) {
             throw PasswordNotMatchedException(request.password, user.password)
         }

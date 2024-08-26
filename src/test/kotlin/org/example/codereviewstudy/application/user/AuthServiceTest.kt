@@ -5,13 +5,13 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.example.codereviewstudy.domain.user.exception.PasswordNotMatchedException
-import org.example.codereviewstudy.domain.user.exception.UserNotFoundException
+import org.example.codereviewstudy.infrastructure.auth.exception.LoginUserNameNotFoundException
 import org.example.codereviewstudy.domain.user.exception.UsernameDuplicatedException
 import org.example.codereviewstudy.domain.user.model.User
 import org.example.codereviewstudy.domain.user.port.UserQueryPort
 import org.example.codereviewstudy.domain.user.port.UserRegistrationPort
 import org.example.codereviewstudy.domain.user.port.UserValidationPort
+import org.example.codereviewstudy.infrastructure.auth.exception.PasswordNotMatchedException
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.LoginRequest
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.SignupRequest
@@ -80,9 +80,9 @@ class AuthServiceTest(
             val request = LoginRequest(username, password)
 
             it("UserNotFoundException이 발생한다") {
-                every { userQueryPort.findByUsername(username) } throws UserNotFoundException(username)
+                every { userQueryPort.findByUsername(username) } throws LoginUserNameNotFoundException(username)
 
-                shouldThrow<UserNotFoundException> {
+                shouldThrow<LoginUserNameNotFoundException> {
                     authService.login(request)
                 }
             }

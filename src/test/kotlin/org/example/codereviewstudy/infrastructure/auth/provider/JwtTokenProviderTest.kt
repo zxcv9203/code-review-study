@@ -1,7 +1,9 @@
 package org.example.codereviewstudy.infrastructure.auth.provider
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import org.example.codereviewstudy.infrastructure.auth.exception.InvalidTokenException
 
 class JwtTokenProviderTest(
     key: String = "testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey",
@@ -20,7 +22,7 @@ class JwtTokenProviderTest(
             it("JWT 토큰을 생성한다") {
                 val token = jwtTokenProvider.create(userId)
 
-                val claims = jwtTokenProvider.getClamis(token)
+                val claims = jwtTokenProvider.getClaims(token)
 
                 claims.issuer shouldBe issuer
                 claims.subject shouldBe userId.toString()
@@ -28,23 +30,14 @@ class JwtTokenProviderTest(
         }
     }
 
-    describe("JWT 유효성 검사") {
-        context("올바른 토큰이 주어졌을 때") {
-            it("유효성 검사를 통과한다") {
-                val token = jwtTokenProvider.create(1L)
-
-                val isValid = jwtTokenProvider.validate(token)
-
-                isValid shouldBe true
-            }
-        }
+    describe("JWT 토큰 조회") {
         context("만료된 토큰이 주어졌을 때") {
             val expiredJwtTokenProvider = JwtTokenProvider(key, issuer, -1000L)
             val token = expiredJwtTokenProvider.create(1L)
             it("유효성 검사를 통과하지 못한다") {
-                val isValid = jwtTokenProvider.validate(token)
-
-                isValid shouldBe false
+                shouldThrow<InvalidTokenException> {
+                    jwtTokenProvider.getClaims(token)
+                }
             }
         }
     }

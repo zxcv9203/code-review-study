@@ -1,9 +1,13 @@
 package org.example.codereviewstudy.infrastructure.auth.provider
 
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
+import org.example.codereviewstudy.infrastructure.auth.exception.InvalidTokenException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.*
@@ -18,6 +22,7 @@ class JwtTokenProvider(
     @Value("\${jwt.expiration}")
     private val expiration: Long
 ) {
+    private val log: Logger = LoggerFactory.getLogger(JwtTokenProvider::class.java)
     private val secretKey: SecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(key))
 
     fun create(userId: Long): String {
@@ -32,20 +37,17 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun getClamis(token: String): Claims {
-        return Jwts.parser()
-            .verifyWith(secretKey)
-            .build()
-            .parseSignedClaims(token)
-            .payload
-    }
-
-    fun validate(token: String): Boolean {
-        return try {
-            getClamis(token)
-            true
-        } catch (e: Exception) {
-            false
+    fun getClaims(token: String): Claims {
+        try {
+            return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .payload
+        } catch (e: JwtException) {
+            log.warn("Invalid JWT token: $token $e")
+            throw InvalidTokenException(token)
         }
     }
+
 }

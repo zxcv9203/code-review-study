@@ -1,6 +1,5 @@
 package org.example.codereviewstudy.infrastructure.persistence.user
 
-import org.example.codereviewstudy.domain.user.exception.UserNotFoundException
 import org.example.codereviewstudy.domain.user.model.User
 import org.example.codereviewstudy.domain.user.model.toJpaEntity
 import org.example.codereviewstudy.domain.user.port.UserQueryPort
@@ -21,9 +20,9 @@ class UserRepository(
             .toUser()
     }
 
-    override fun findByUsername(username: String): User {
+    override fun findByUsername(username: String): User? {
         return jpaUserRepository.findByUsername(username)
             ?.toUser()
-            ?: throw UserNotFoundException(username)
+
     }
 }
