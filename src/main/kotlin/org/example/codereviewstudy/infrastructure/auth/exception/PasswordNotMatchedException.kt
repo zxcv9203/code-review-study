@@ -1,4 +1,4 @@
-package org.example.codereviewstudy.domain.user.exception
+package org.example.codereviewstudy.infrastructure.auth.exception
 
 import org.example.codereviewstudy.common.exception.AuthenticationException
 import org.springframework.http.HttpStatus
