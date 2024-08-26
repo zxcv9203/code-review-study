@@ -39,9 +39,7 @@ class AuthArgumentResolver(
         }
 
         val token = authorizationHeader.removePrefix(tokenPrefix)
-        if (jwtTokenProvider.validate(token).not()) {
-            throw InvalidTokenException(token)
-        }
+
         val claims = jwtTokenProvider.getClaims(token)
         val userId = claims.subject.toLong()
 
