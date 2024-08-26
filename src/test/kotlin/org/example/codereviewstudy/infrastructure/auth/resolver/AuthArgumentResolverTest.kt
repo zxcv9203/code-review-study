@@ -50,7 +50,7 @@ class AuthArgumentResolverTest(
             val webRequest = ServletWebRequest(authorizationHeader)
             it("AuthUser 객체를 반환해야 한다") {
                 every { jwtTokenProvider.validate(validToken) } returns true
-                every { jwtTokenProvider.getClamis(validToken) } returns createClaims("1")
+                every { jwtTokenProvider.getClaims(validToken) } returns createClaims("1")
 
                 val methodParameter = mockk<MethodParameter> {
                     every { parameterType } returns AuthUser::class.java

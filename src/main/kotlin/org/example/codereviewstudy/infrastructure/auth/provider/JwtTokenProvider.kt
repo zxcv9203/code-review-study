@@ -32,7 +32,7 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun getClamis(token: String): Claims {
+    fun getClaims(token: String): Claims {
         return Jwts.parser()
             .verifyWith(secretKey)
             .build()
@@ -42,7 +42,7 @@ class JwtTokenProvider(
 
     fun validate(token: String): Boolean {
         return try {
-            getClamis(token)
+            getClaims(token)
             true
         } catch (e: Exception) {
             false

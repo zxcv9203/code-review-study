@@ -20,7 +20,7 @@ class JwtTokenProviderTest(
             it("JWT 토큰을 생성한다") {
                 val token = jwtTokenProvider.create(userId)
 
-                val claims = jwtTokenProvider.getClamis(token)
+                val claims = jwtTokenProvider.getClaims(token)
 
                 claims.issuer shouldBe issuer
                 claims.subject shouldBe userId.toString()
