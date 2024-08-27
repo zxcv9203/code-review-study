@@ -98,13 +98,13 @@ sequenceDiagram
 - 응답
     ```
   {
-      "status": "201"
+      "status": 201
       "message": "회원 가입에 성공했습니다.",
     }
   ```
   ```
     {
-      "status": "400"
+      "status": 400
       "message": "이미 존재하는 사용자 이름입니다."
     }
   ```
@@ -148,7 +148,7 @@ sequenceDiagram
 - 응답
   ```
   {
-  "status": "200",
+  "status": 200,
   "message": "게시글 목록 조회에 성공했습니다.",
   "data": [
     {
@@ -194,13 +194,13 @@ sequenceDiagram
 - 응답
   ```
   {
-  "status": "201",
+  "status": 201,
   "message": "게시글 작성에 성공했습니다.",
   "data": {
     "title": "Post Title",
     "author": "Author Name",
     "content": "Post Content",
-    "date": "2024-08-15T14:30:00Z"
+    "createdAt": "2024-08-15T14:30:00Z"
   },
   ```
 

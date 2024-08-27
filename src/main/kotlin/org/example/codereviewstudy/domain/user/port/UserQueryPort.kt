@@ -4,4 +4,5 @@ import org.example.codereviewstudy.domain.user.model.User
 
 interface UserQueryPort {
     fun findByUsername(username: String): User?
+    fun findById(id: Long): User?
 }

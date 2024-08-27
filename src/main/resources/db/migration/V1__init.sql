@@ -13,7 +13,7 @@ ALTER TABLE `users`
 
 CREATE TABLE IF NOT EXISTS `posts`
 (
-    id         BIGINT       NOT NULL PRIMARY KEY,
+    id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
     author_id  BIGINT       NOT NULL,
     title      VARCHAR(255) NOT NULL,
     content    TEXT         NOT NULL,
