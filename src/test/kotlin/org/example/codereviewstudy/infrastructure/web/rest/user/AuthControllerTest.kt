@@ -22,11 +22,9 @@ import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
-@Transactional
 class AuthControllerTest(
     @Autowired
     private val context: WebApplicationContext,

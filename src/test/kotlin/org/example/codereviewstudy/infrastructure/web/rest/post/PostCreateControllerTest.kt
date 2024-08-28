@@ -23,11 +23,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.pos
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.context.WebApplicationContext
 
 @SpringBootTest
-@Transactional
 class PostCreateControllerTest(
     @Autowired
     private val context: WebApplicationContext,
@@ -93,6 +91,7 @@ class PostCreateControllerTest(
                             responseFields(
                                 fieldWithPath("status").description("상태 코드"),
                                 fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("게시글 ID"),
                                 fieldWithPath("data.title").description("게시글 제목"),
                                 fieldWithPath("data.content").description("게시글 내용"),
                                 fieldWithPath("data.author").description("작성자 이름"),
@@ -174,4 +173,5 @@ class PostCreateControllerTest(
             }
         }
     }
-})
+}) {
+}
