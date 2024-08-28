@@ -4,6 +4,7 @@ import org.example.codereviewstudy.domain.user.model.User
 import org.example.codereviewstudy.domain.user.model.toJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostCreateResponse
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostResponse
 import java.time.LocalDateTime
 
 class Post(
@@ -30,5 +31,16 @@ fun Post.toCreateResponse(): PostCreateResponse {
         author = author.username,
         content = content,
         createdAt = createdAt,
+        id = id,
+    )
+}
+
+fun Post.toResponse(): PostResponse {
+    return PostResponse(
+        title = title,
+        author = author.username,
+        content = content,
+        createdAt = createdAt,
+        id = id,
     )
 }
