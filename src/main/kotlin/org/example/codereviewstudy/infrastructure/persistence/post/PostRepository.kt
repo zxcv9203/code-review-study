@@ -6,13 +6,14 @@ import org.example.codereviewstudy.domain.post.model.toJpaEntity
 import org.example.codereviewstudy.domain.post.port.PostCreatePort
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.post.port.PostUpdatePort
+import org.example.codereviewstudy.domain.user.port.PostDeletePort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
 @Repository
 class PostRepository(
     private val jpaPostRepository: JpaPostRepository,
-) : PostCreatePort, PostQueryPort, PostUpdatePort {
+) : PostCreatePort, PostQueryPort, PostUpdatePort, PostDeletePort {
 
     override fun create(post: Post): Post {
         return jpaPostRepository.save(post.toJpaEntity())
@@ -28,6 +29,10 @@ class PostRepository(
     override fun update(post: Post): Post {
         val u = jpaPostRepository.save(post.toJpaEntity())
         return u.toDomain()
+    }
+
+    override fun delete(post: Post) {
+        jpaPostRepository.delete(post.toJpaEntity())
     }
 }
 
