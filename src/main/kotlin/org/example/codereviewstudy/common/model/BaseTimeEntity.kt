@@ -12,11 +12,11 @@ import java.time.LocalDateTime
 abstract class BaseTimeEntity {
 
     @CreatedDate
-    lateinit var createdAt: LocalDateTime
+    var createdAt: LocalDateTime = LocalDateTime.MIN
         private set
 
     @LastModifiedDate
-    lateinit var updatedAt: LocalDateTime
+    var updatedAt: LocalDateTime = LocalDateTime.MIN
         private set
 
 }
