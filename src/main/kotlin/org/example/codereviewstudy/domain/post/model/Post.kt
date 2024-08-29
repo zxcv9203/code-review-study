@@ -5,6 +5,7 @@ import org.example.codereviewstudy.domain.user.model.toJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostCreateResponse
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostResponse
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostUpdateResponse
 import java.time.LocalDateTime
 
 class Post(
@@ -14,7 +15,12 @@ class Post(
     val createdAt: LocalDateTime,
 
     val id: Long = 0,
-)
+) {
+    fun update(title: String, content: String) {
+        this.title = title
+        this.content = content
+    }
+}
 
 fun Post.toJpaEntity(): PostJpaEntity {
     return PostJpaEntity(
@@ -37,6 +43,16 @@ fun Post.toCreateResponse(): PostCreateResponse {
 
 fun Post.toResponse(): PostResponse {
     return PostResponse(
+        title = title,
+        author = author.username,
+        content = content,
+        createdAt = createdAt,
+        id = id,
+    )
+}
+
+fun Post.toUpdateResponse(): PostUpdateResponse {
+    return PostUpdateResponse(
         title = title,
         author = author.username,
         content = content,

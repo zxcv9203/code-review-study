@@ -10,7 +10,7 @@ import org.hibernate.annotations.Comment
 @Entity
 @Table(name = "posts", indexes = [Index(name = "idx_post_title", columnList = "title")])
 class PostJpaEntity(
-    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     var author: UserJpaEntity,
 
