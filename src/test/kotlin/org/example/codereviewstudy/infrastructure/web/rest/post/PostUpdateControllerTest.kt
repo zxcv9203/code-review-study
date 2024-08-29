@@ -16,6 +16,7 @@ import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
@@ -23,6 +24,8 @@ import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch
 import org.springframework.restdocs.payload.PayloadDocumentation.*
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
@@ -88,7 +91,7 @@ class PostUpdateControllerTest(
                         .content(objectMapper.writeValueAsString(request))
                 )
                     .andExpect(status().isOk)
-                    .andExpect(jsonPath("$.status").value(200))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
                     .andExpect(jsonPath("$.message").value("게시글 수정에 성공했습니다."))
                     .andExpect(jsonPath("$.data.title").value(request.title))
                     .andExpect(jsonPath("$.data.content").value(request.content))
@@ -97,6 +100,9 @@ class PostUpdateControllerTest(
                             "post-update/success",
                             requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                            ),
+                            pathParameters(
+                                parameterWithName("id").description("게시글 ID")
                             ),
                             requestFields(
                                 fieldWithPath("title").description("게시글 제목"),
@@ -130,14 +136,20 @@ class PostUpdateControllerTest(
                             .content(objectMapper.writeValueAsString(request))
                     )
                         .andExpect(status().isBadRequest)
-                        .andExpect(jsonPath("$.status").value(400))
+                        .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                         .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
                         .andDo(
                             document(
                                 "post-update/fail/$description",
+                                requestHeaders(
+                                    headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                                ),
                                 requestFields(
                                     fieldWithPath("title").description("게시글 제목"),
                                     fieldWithPath("content").description("게시글 내용")
+                                ),
+                                pathParameters(
+                                    parameterWithName("id").description("게시글 ID")
                                 ),
                                 responseFields(
                                     fieldWithPath("status").description("상태 코드"),
@@ -163,13 +175,20 @@ class PostUpdateControllerTest(
                         .content(objectMapper.writeValueAsString(request))
                 )
                     .andExpect(status().isNotFound)
-                    .andExpect(jsonPath("$.status").value(404))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
                     .andExpect(jsonPath("$.message").value("해당 게시글을 찾을 수 없습니다."))
                     .andDo(
                         document(
-                            "post-update/fail/not-found",
+                            "post-update/fail/not-found-post",
                             requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                            ),
+                            pathParameters(
+                                parameterWithName("id").description("게시글 ID")
+                            ),
+                            requestFields(
+                                fieldWithPath("title").description("게시글 제목"),
+                                fieldWithPath("content").description("게시글 내용")
                             ),
                             responseFields(
                                 fieldWithPath("status").description("상태 코드"),
@@ -192,13 +211,20 @@ class PostUpdateControllerTest(
                         .content(objectMapper.writeValueAsString(request))
                 )
                     .andExpect(status().isForbidden)
-                    .andExpect(jsonPath("$.status").value(403))
-                    .andExpect(jsonPath("$.message").value("내가 작성한 게시글만 수정할 수 있습니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
+                    .andExpect(jsonPath("$.message").value("내가 작성한 게시글이 아닙니다."))
                     .andDo(
                         document(
                             "post-update/fail/not-author",
                             requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                            ),
+                            pathParameters(
+                                parameterWithName("id").description("게시글 ID")
+                            ),
+                            requestFields(
+                                fieldWithPath("title").description("게시글 제목"),
+                                fieldWithPath("content").description("게시글 내용")
                             ),
                             responseFields(
                                 fieldWithPath("status").description("상태 코드"),
@@ -228,6 +254,13 @@ class PostUpdateControllerTest(
                             "post-update/fail/not-found-user",
                             requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("JWT 토큰")
+                            ),
+                            pathParameters(
+                                parameterWithName("id").description("게시글 ID")
+                            ),
+                            requestFields(
+                                fieldWithPath("title").description("게시글 제목"),
+                                fieldWithPath("content").description("게시글 내용")
                             ),
                             responseFields(
                                 fieldWithPath("status").description("상태 코드"),

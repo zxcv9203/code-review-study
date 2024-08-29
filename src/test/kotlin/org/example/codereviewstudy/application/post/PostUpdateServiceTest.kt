@@ -53,8 +53,8 @@ class PostUpdateServiceTest(
                 }
                 exception.authorId shouldBe dbPost.author.id
                 exception.loginUserId shouldBe userId
-                exception.message shouldBe "내가 작성한 게시글만 수정할 수 있습니다."
-                exception.errorMessage shouldBe "내가 작성한 게시글만 수정할 수 있습니다. : 작성자 ID: ${dbPost.author.id}, 로그인 사용자 ID: $userId"
+                exception.message shouldBe "내가 작성한 게시글이 아닙니다."
+                exception.errorMessage shouldBe "내가 작성한 게시글이 아닙니다. : 작성자 ID: ${dbPost.author.id}, 로그인 사용자 ID: $userId"
             }
         }
     }

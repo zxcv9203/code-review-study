@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 class PostAuthorNotMatchedException(
     val authorId: Long,
     val loginUserId: Long,
-    override val message: String = "내가 작성한 게시글만 수정할 수 있습니다.",
+    override val message: String = "내가 작성한 게시글이 아닙니다.",
 ):
 NotMatchedException(
     status = HttpStatus.FORBIDDEN,
