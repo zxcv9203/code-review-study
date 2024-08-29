@@ -7,6 +7,8 @@ import org.example.codereviewstudy.domain.post.port.PostCreatePort
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.post.port.PostUpdatePort
 import org.example.codereviewstudy.domain.user.port.PostDeletePort
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -24,6 +26,11 @@ class PostRepository(
         return jpaPostRepository.findByIdOrNull(id)
             ?.toDomain()
             ?: throw PostNotFoundException(id)
+    }
+
+    override fun findAll(pageable: Pageable): Page<Post> {
+        return jpaPostRepository.findAll(pageable)
+            .map { it.toDomain() }
     }
 
     override fun update(post: Post): Post {
