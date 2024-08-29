@@ -14,5 +14,6 @@ fun User.toJpaEntity(): UserJpaEntity {
     return UserJpaEntity(
         username = this.username,
         password = this.password,
+        id = this.id,
     )
 }
