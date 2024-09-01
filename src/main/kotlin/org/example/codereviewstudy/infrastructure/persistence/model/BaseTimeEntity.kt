@@ -1,4 +1,4 @@
-package org.example.codereviewstudy.common.model
+package org.example.codereviewstudy.infrastructure.persistence.model
 
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass
