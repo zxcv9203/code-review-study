@@ -6,6 +6,7 @@ import org.example.codereviewstudy.domain.post.port.PostCreatePort
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.post.port.PostUpdatePort
 import org.example.codereviewstudy.domain.user.port.PostDeletePort
+import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toDomain
 import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toJpaEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
