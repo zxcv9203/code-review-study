@@ -1,10 +1,11 @@
 package org.example.codereviewstudy.infrastructure.persistence.user
 
 import org.example.codereviewstudy.domain.user.model.User
-import org.example.codereviewstudy.domain.user.model.toJpaEntity
 import org.example.codereviewstudy.domain.user.port.UserQueryPort
 import org.example.codereviewstudy.domain.user.port.UserRegistrationPort
 import org.example.codereviewstudy.domain.user.port.UserValidationPort
+import org.example.codereviewstudy.infrastructure.persistence.user.mapper.toDomain
+import org.example.codereviewstudy.infrastructure.persistence.user.mapper.toJpaEntity
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -18,16 +19,16 @@ class UserRepository(
 
     override fun signup(user: User): User {
         return jpaUserRepository.save(user.toJpaEntity())
-            .toUser()
+            .toDomain()
     }
 
     override fun findByUsername(username: String): User? {
         return jpaUserRepository.findByUsername(username)
-            ?.toUser()
+            ?.toDomain()
     }
 
     override fun findById(id: Long): User? {
         return jpaUserRepository.findByIdOrNull(id)
-            ?.toUser()
+            ?.toDomain()
     }
 }

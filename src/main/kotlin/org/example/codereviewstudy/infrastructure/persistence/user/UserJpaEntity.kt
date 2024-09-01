@@ -17,11 +17,3 @@ class UserJpaEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 ) : BaseTimeEntity()
-
-fun UserJpaEntity.toUser(): User {
-    return User(
-        username = this.username,
-        password = this.password,
-        id = this.id,
-    )
-}
