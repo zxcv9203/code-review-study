@@ -2,9 +2,9 @@ package org.example.codereviewstudy.application.post
 
 import org.example.codereviewstudy.application.user.UserQueryService
 import org.example.codereviewstudy.domain.post.exception.PostAuthorNotMatchedException
-import org.example.codereviewstudy.domain.post.model.toUpdateResponse
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.post.port.PostUpdatePort
+import org.example.codereviewstudy.infrastructure.web.rest.post.mapper.toUpdateResponse
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostUpdateRequest
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostUpdateResponse
 import org.springframework.stereotype.Service
