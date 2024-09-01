@@ -1,6 +1,7 @@
 package org.example.codereviewstudy.common.exception.handler
 
 import org.example.codereviewstudy.common.exception.BusinessException
+import org.example.codereviewstudy.common.exception.message.ErrorMessage
 import org.example.codereviewstudy.common.exception.model.ValidationError
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.slf4j.Logger
@@ -56,7 +57,7 @@ class GlobalExceptionHandler(
 
         val response = ApiResponse.error(
             HttpStatus.NOT_FOUND,
-            "요청한 리소스를 찾을 수 없습니다."
+            ErrorMessage.NOT_FOUND.message
         )
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -74,7 +75,7 @@ class GlobalExceptionHandler(
 
         val response = ApiResponse.error(
             HttpStatus.BAD_REQUEST,
-            "잘못된 요청입니다.",
+            ErrorMessage.VALIDATION_FAILED.message,
             errors
         )
 
@@ -107,7 +108,7 @@ class GlobalExceptionHandler(
 
         val response = ApiResponse.error(
             HttpStatus.BAD_REQUEST,
-            "잘못된 요청입니다."
+            ErrorMessage.VALIDATION_FAILED.message
         )
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -120,7 +121,7 @@ class GlobalExceptionHandler(
 
         val response = ApiResponse.error(
             HttpStatus.INTERNAL_SERVER_ERROR,
-            "서버 에러가 발생했습니다."
+            ErrorMessage.INTERNAL_SERVER_ERROR.message
         )
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

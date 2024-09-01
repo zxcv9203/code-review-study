@@ -71,3 +71,34 @@ include::{snippets}/login/fail/not-match-password/http-response.adoc[]
 include::{snippets}/login/fail/not-match-password/response-fields.adoc[]
 
 
+== 게시판 API
+
+=== 게시글 작성
+
+==== POST /api/posts
+
+===== curl 스크립트
+include::{snippets}/post-create/success/curl-request.adoc[]
+
+===== 요청
+include::{snippets}/post-create/success/http-request.adoc[]
+include::{snippets}/post-create/success/request-fields.adoc[]
+include::{snippets}/post-create/success/request-headers.adoc[]
+
+===== 응답 (성공)
+include::{snippets}/post-create/success/http-response.adoc[]
+include::{snippets}/post-create/success/response-fields.adoc[]
+
+===== 응답 (실패)
+.유효하지 않은 값으로 요청한 경우
+include::{snippets}/post-create/fail/long-title/response-fields.adoc[]
+
+.제목 길이가 255자를 초과한 경우
+include::{snippets}/post-create/fail/long-title/http-response.adoc[]
+
+.제목 또는 내용이 비어있는 경우
+include::{snippets}/post-create/fail/blank/http-response.adoc[]
+
+.사용자 정보가 없는 경우
+include::{snippets}/post-create/fail/not-found-user/http-response.adoc[]
+include::{snippets}/post-create/fail/not-found-user/response-fields.adoc[]

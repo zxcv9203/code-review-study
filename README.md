@@ -1,6 +1,7 @@
 # 게시판 서비스
 
 ## API 문서 주소
+
 실행 후
 
 - http://localhost:8080/docs/index.html
@@ -26,9 +27,8 @@
     - 수정시 로그인한 작성한 사용자가 맞는지 검증 진행
     - 제목, 작성 내용을 수정하고 수정된 게시글을 반환
 - 게시글 삭제
-  - 삭제를 요청할 때 작성한 사용자가 맞는지 검증 진행
-  - 선택한 게시글 삭제
-    
+    - 삭제를 요청할 때 작성한 사용자가 맞는지 검증 진행
+    - 선택한 게시글 삭제
 
 ## 패키지 구조
 
@@ -98,45 +98,47 @@ sequenceDiagram
 - 응답
     ```
   {
-      "status": "201"
+      "status": 201
       "message": "회원 가입에 성공했습니다.",
     }
   ```
   ```
     {
-      "status": "400"
+      "status": 400
       "message": "이미 존재하는 사용자 이름입니다."
     }
   ```
+
 ### 로그인
+
 ```mermaid
 sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: POST /api/login
-    Server->>Database: 사용자 정보 조회 
-    Database-->>Server: 사용자 정보 반환 
-    Server->>Server: 입력된 비밀번호와 해시된 비밀번호 비교
+    Client ->> Server: POST /api/login
+    Server ->> Database: 사용자 정보 조회
+    Database -->> Server: 사용자 정보 반환
+    Server ->> Server: 입력된 비밀번호와 해시된 비밀번호 비교
     alt 입력된 비밀번호와 해시된 비밀번호가 다른 경우
-        Server-->>Client: 로그인 실패 응답 (400)
+        Server -->> Client: 로그인 실패 응답 (400)
     end
-    Server-->>Client: 로그인 성공 응답 (200)
+    Server -->> Client: 로그인 성공 응답 (200)
 ```
 
 ### 전체 게시글 목록 조회
+
 ```mermaid
 sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: GET /api/posts 
-    Server->>Database: 게시글 목록 조회
-    Database-->>Server: 게시글 목록 반환
-    Server-->>Client: 게시글 목록 응답
+    Client ->> Server: GET /api/posts
+    Server ->> Database: 게시글 목록 조회
+    Database -->> Server: 게시글 목록 반환
+    Server -->> Client: 게시글 목록 응답
 ```
+
 - 요청
   ```
   # 헤더
@@ -148,7 +150,7 @@ sequenceDiagram
 - 응답
   ```
   {
-  "status": "200",
+  "status": 200,
   "message": "게시글 목록 조회에 성공했습니다.",
   "data": [
     {
@@ -169,17 +171,18 @@ sequenceDiagram
   ```
 
 ### 게시글 작성
+
 ```mermaid
 sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: POST /api/posts
-    Server->>Database: 게시글 저장
-    Database-->>Server: 저장 완료
-    Server-->>Client: 작성된 게시글 응답
+    Client ->> Server: POST /api/posts
+    Server ->> Database: 게시글 저장
+    Database -->> Server: 저장 완료
+    Server -->> Client: 작성된 게시글 응답
 ```
+
 - 요청
   ```
   # 헤더
@@ -190,17 +193,18 @@ sequenceDiagram
     "content": "Post Content"
   }
   ```
-  
+
 - 응답
   ```
   {
-  "status": "201",
+  "status": 201,
   "message": "게시글 작성에 성공했습니다.",
   "data": {
+    "id": 1,
     "title": "Post Title",
     "author": "Author Name",
     "content": "Post Content",
-    "date": "2024-08-15T14:30:00Z"
+    "createdAt": "2024-08-15T14:30:00Z"
   },
   ```
 
@@ -211,15 +215,14 @@ sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: GET /api/posts/{id}
-    Server->>Database: 게시글 조회
-    Database-->>Server: 해당 게시글 정보 반환
+    Client ->> Server: GET /api/posts/{id}
+    Server ->> Database: 게시글 조회
+    Database -->> Server: 해당 게시글 정보 반환
 
     alt 게시글이 존재하지 않는 경우
-        Server-->>Client: 게시글이 존재하지 않습니다. (404)
+        Server -->> Client: 게시글이 존재하지 않습니다. (404)
     end
-    Server-->>Client: 게시글 정보 응답 
+    Server -->> Client: 게시글 정보 응답 
 ```
 
 - 요청
@@ -230,9 +233,10 @@ sequenceDiagram
 - 응답
   ```
   {
-    "status": "200",
+    "status": 200,
     "message": "게시글 조회에 성공했습니다.",
     "data": {
+      "id": 1,
       "title": "Post Title",
       "author": "Author Name",
       "content": "Post Content",
@@ -240,20 +244,21 @@ sequenceDiagram
     }
   }
   ```
+
 ### 게시글 수정
+
 ```mermaid
 sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: PUT /api/posts/{id}
-    Server->>Database: 게시글 수정
-    Database-->>Server: 수정 결과 반환
+    Client ->> Server: PUT /api/posts/{id}
+    Server ->> Database: 게시글 수정
+    Database -->> Server: 수정 결과 반환
     alt 게시글이 존재하지 않는 경우
-      Server-->>Client: 게시글이 존재하지 않습니다. (404)
+        Server -->> Client: 게시글이 존재하지 않습니다. (404)
     end
-    Server-->>Client: 수정된 게시글 응답 (title, author, content, updated_date)
+    Server -->> Client: 수정된 게시글 응답 (title, author, content, updated_date)
 ```
 
 - 요청
@@ -269,9 +274,10 @@ sequenceDiagram
 - 응답
   ```
     {
-      "status": "200",
+      "status": 200,
       "message": "게시글 수정에 성공했습니다.",
       "data": {
+        "id": 1,
         "title": "Post Title",
         "author": "Author Name",
         "content": "Post Content",
@@ -279,6 +285,7 @@ sequenceDiagram
       }
     }
   ```
+
 ### 게시글 삭제
 
 ```mermaid
@@ -286,14 +293,13 @@ sequenceDiagram
     participant Client
     participant Server
     participant Database
-
-    Client->>Server: DELETE /api/posts/{id}
-    Server->>Database: 게시글 삭제
-    Database-->>Server: 삭제 결과 반환
+    Client ->> Server: DELETE /api/posts/{id}
+    Server ->> Database: 게시글 삭제
+    Database -->> Server: 삭제 결과 반환
     alt 게시글이 존재하지 않는 경우
-      Server-->>Client: 게시글이 존재하지 않습니다. (404)
+        Server -->> Client: 게시글이 존재하지 않습니다. (404)
     end
-    Server-->>Client: 게시글 삭제 성공 응답
+    Server -->> Client: 게시글 삭제 성공 응답
 ```
 
 - 요청
@@ -304,7 +310,7 @@ sequenceDiagram
 - 응답
     ```
         {
-        "status": "200",
+        "status": 200,
         "message": "게시글 삭제에 성공했습니다."
         }
     ```

@@ -4,8 +4,8 @@ import org.example.codereviewstudy.common.exception.AuthenticationException
 import org.springframework.http.HttpStatus
 
 class PasswordNotMatchedException(
-    private val encryptPassword: String,
     val password: String,
+    val encryptPassword: String,
 ) : AuthenticationException(
     status = HttpStatus.BAD_REQUEST,
     value = password,

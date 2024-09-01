@@ -5,6 +5,7 @@ import org.example.codereviewstudy.application.user.AuthService
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.LoginRequest
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.SignupRequest
+import org.example.codereviewstudy.infrastructure.web.rest.user.response.UserSuccessMessage
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,7 +26,7 @@ class AuthController(
         authService.signup(request)
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(ApiResponse.success(HttpStatus.CREATED, "회원가입에 성공했습니다."))
+            .body(ApiResponse.success(HttpStatus.CREATED, UserSuccessMessage.SIGNUP.message))
     }
 
     @PostMapping("/login")
@@ -36,6 +37,6 @@ class AuthController(
 
         return ResponseEntity.status(HttpStatus.OK)
             .header(HttpHeaders.AUTHORIZATION, response.token)
-            .body(ApiResponse.success(HttpStatus.OK, "로그인에 성공했습니다."))
+            .body(ApiResponse.success(HttpStatus.OK, UserSuccessMessage.LOGIN.message))
     }
 }

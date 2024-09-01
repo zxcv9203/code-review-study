@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.example.codereviewstudy.common.exception.message.ErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.exception.LoginUserNameNotFoundException
 import org.example.codereviewstudy.domain.user.exception.UsernameDuplicatedException
 import org.example.codereviewstudy.domain.user.model.User
@@ -82,9 +83,11 @@ class AuthServiceTest(
             it("UserNotFoundException이 발생한다") {
                 every { userQueryPort.findByUsername(username) } throws LoginUserNameNotFoundException(username)
 
-                shouldThrow<LoginUserNameNotFoundException> {
+                val exception = shouldThrow<LoginUserNameNotFoundException> {
                     authService.login(request)
                 }
+                exception.username shouldBe username
+                exception.message shouldBe ErrorMessage.AUTHENTICATION_FAILED.message
             }
         }
 
@@ -102,9 +105,12 @@ class AuthServiceTest(
                 every { userQueryPort.findByUsername(username) } returns user
                 every { passwordEncoder.matches(request.password, user.password) } returns false
 
-                shouldThrow<PasswordNotMatchedException> {
+                val exception = shouldThrow<PasswordNotMatchedException> {
                     authService.login(request)
                 }
+                exception.password shouldBe request.password
+                exception.encryptPassword shouldBe user.password
+                exception.message shouldBe ErrorMessage.AUTHENTICATION_FAILED.message
             }
         }
     }
