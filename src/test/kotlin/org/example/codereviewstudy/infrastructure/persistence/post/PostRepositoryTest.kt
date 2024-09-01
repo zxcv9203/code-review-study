@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.example.codereviewstudy.domain.post.exception.PostNotFoundException
+import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.springframework.data.repository.findByIdOrNull
 
 class PostRepositoryTest(
@@ -24,9 +25,9 @@ class PostRepositoryTest(
                     postRepository.findById(id)
                 }
 
-                exception.message shouldBe "해당 게시글을 찾을 수 없습니다."
+                exception.message shouldBe PostErrorMessage.NOT_FOUND.message
                 exception.id shouldBe id
-                exception.errorMessage shouldBe "해당 게시글을 찾을 수 없습니다. 게시글 ID: $id"
+                exception.errorMessage shouldBe "${PostErrorMessage.NOT_FOUND.message} 게시글 ID: $id"
             }
         }
     }

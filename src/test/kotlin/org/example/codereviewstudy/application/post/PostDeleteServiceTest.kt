@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.example.codereviewstudy.application.user.UserQueryService
 import org.example.codereviewstudy.domain.post.exception.PostAuthorNotMatchedException
+import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.domain.post.model.Post
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.user.model.User
@@ -60,8 +61,8 @@ class PostDeleteServiceTest(
                 }
                 exception.authorId shouldBe dbPost.author.id
                 exception.loginUserId shouldBe userId
-                exception.message shouldBe "내가 작성한 게시글이 아닙니다."
-                exception.errorMessage shouldBe "내가 작성한 게시글이 아닙니다. : 작성자 ID: ${dbPost.author.id}, 로그인 사용자 ID: $userId"
+                exception.message shouldBe PostErrorMessage.AUTHOR_NOT_MATCHED.message
+                exception.errorMessage shouldBe "${PostErrorMessage.AUTHOR_NOT_MATCHED.message} : 작성자 ID: ${dbPost.author.id}, 로그인 사용자 ID: $userId"
             }
         }
     }

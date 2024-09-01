@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.data.forAll
 import io.kotest.data.row
+import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
+import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
@@ -11,6 +13,7 @@ import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserReposi
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostCreateRequest
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostUpdateRequest
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
 import org.example.codereviewstudy.utils.TxHelper
 import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.springframework.beans.factory.annotation.Autowired
@@ -92,7 +95,7 @@ class PostUpdateControllerTest(
                 )
                     .andExpect(status().isOk)
                     .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
-                    .andExpect(jsonPath("$.message").value("게시글 수정에 성공했습니다."))
+                    .andExpect(jsonPath("$.message").value(PostSuccessMessage.UPDATED.message))
                     .andExpect(jsonPath("$.data.title").value(request.title))
                     .andExpect(jsonPath("$.data.content").value(request.content))
                     .andDo(
@@ -176,7 +179,7 @@ class PostUpdateControllerTest(
                 )
                     .andExpect(status().isNotFound)
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.message").value("해당 게시글을 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.message").value(PostErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-update/fail/not-found-post",
@@ -212,7 +215,7 @@ class PostUpdateControllerTest(
                 )
                     .andExpect(status().isForbidden)
                     .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
-                    .andExpect(jsonPath("$.message").value("내가 작성한 게시글이 아닙니다."))
+                    .andExpect(jsonPath("$.message").value(PostErrorMessage.AUTHOR_NOT_MATCHED.message))
                     .andDo(
                         document(
                             "post-update/fail/not-author",
@@ -247,8 +250,8 @@ class PostUpdateControllerTest(
                         .content(objectMapper.writeValueAsString(request))
                 )
                     .andExpect(status().isNotFound)
-                    .andExpect(jsonPath("$.status").value(404))
-                    .andExpect(jsonPath("$.message").value("사용자를 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
+                    .andExpect(jsonPath("$.message").value(UserErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-update/fail/not-found-user",

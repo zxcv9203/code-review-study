@@ -1,6 +1,7 @@
 package org.example.codereviewstudy.infrastructure.web.rest.post
 
 import io.kotest.core.spec.style.DescribeSpec
+import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
@@ -11,6 +12,7 @@ import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
@@ -118,8 +120,8 @@ class PostQueryControllerTest(
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                     .andExpect(status().isNotFound)
-                    .andExpect(jsonPath("$.status").value(404))
-                    .andExpect(jsonPath("$.message").value("해당 게시글을 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
+                    .andExpect(jsonPath("$.message").value(PostErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-get-by-id/not-found",

@@ -1,7 +1,7 @@
 package org.example.codereviewstudy.infrastructure.persistence.user
 
 import jakarta.persistence.*
-import org.example.codereviewstudy.common.model.BaseTimeEntity
+import org.example.codereviewstudy.infrastructure.persistence.model.BaseTimeEntity
 import org.example.codereviewstudy.domain.user.model.User
 
 @Entity

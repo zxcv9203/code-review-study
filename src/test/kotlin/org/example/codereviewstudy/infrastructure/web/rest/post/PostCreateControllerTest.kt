@@ -4,11 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.data.forAll
 import io.kotest.data.row
+import org.example.codereviewstudy.common.exception.message.ErrorMessage
+import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostCreateRequest
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
 import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -74,7 +77,7 @@ class PostCreateControllerTest(
                 )
                     .andExpect(status().isCreated)
                     .andExpect(jsonPath("$.status").value(HttpStatus.CREATED.value()))
-                    .andExpect(jsonPath("$.message").value("게시글 작성에 성공했습니다."))
+                    .andExpect(jsonPath("$.message").value(PostSuccessMessage.CREATED.message))
                     .andExpect(jsonPath("$.data.author").value(user.username))
                     .andExpect(jsonPath("$.data.title").value(request.title))
                     .andExpect(jsonPath("$.data.content").value(request.content))
@@ -117,7 +120,7 @@ class PostCreateControllerTest(
                     )
                         .andExpect(status().isBadRequest)
                         .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
-                        .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                        .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_FAILED.message))
                         .andDo(
                             document(
                                 "post-create/fail/$description",
@@ -152,7 +155,7 @@ class PostCreateControllerTest(
                 )
                     .andExpect(status().isNotFound)
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.message").value("사용자를 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.message").value(UserErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-create/fail/not-found-user",

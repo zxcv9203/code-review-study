@@ -5,6 +5,7 @@ import org.example.codereviewstudy.application.post.PostUpdateService
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.example.codereviewstudy.infrastructure.auth.model.AuthUser
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostUpdateRequest
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostUpdateResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ class PostUpdateController(
         authUser: AuthUser,
     ): ResponseEntity<ApiResponse<PostUpdateResponse>> {
         return postUpdateService.update(id, request, authUser.id)
-            .let { ApiResponse.success(HttpStatus.OK, "게시글 수정에 성공했습니다.", it) }
+            .let { ApiResponse.success(HttpStatus.OK, PostSuccessMessage.UPDATED.message, it) }
             .let { ResponseEntity.status(HttpStatus.OK).body(it) }
     }
 

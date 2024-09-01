@@ -1,11 +1,14 @@
 package org.example.codereviewstudy.infrastructure.web.rest.post
 
 import io.kotest.core.spec.style.DescribeSpec
+import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
+import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
 import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -77,7 +80,7 @@ class PostDeleteControllerTest(
                 )
                     .andExpect(status().isOk)
                     .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
-                    .andExpect(jsonPath("$.message").value("게시글 삭제에 성공했습니다."))
+                    .andExpect(jsonPath("$.message").value(PostSuccessMessage.DELETED.message))
                     .andDo(
                         document(
                             "post-delete/success",
@@ -105,7 +108,7 @@ class PostDeleteControllerTest(
                 )
                     .andExpect(status().isForbidden)
                     .andExpect(jsonPath("$.status").value(HttpStatus.FORBIDDEN.value()))
-                    .andExpect(jsonPath("$.message").value("내가 작성한 게시글이 아닙니다."))
+                    .andExpect(jsonPath("$.message").value(PostErrorMessage.AUTHOR_NOT_MATCHED.message))
                     .andDo(
                         document(
                             "post-delete/fail/not-author",
@@ -134,7 +137,7 @@ class PostDeleteControllerTest(
                 )
                     .andExpect(status().isNotFound)
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.message").value("해당 게시글을 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.message").value(PostErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-delete/fail/not-found-post",
@@ -163,7 +166,7 @@ class PostDeleteControllerTest(
                 )
                     .andExpect(status().isNotFound)
                     .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
-                    .andExpect(jsonPath("$.message").value("사용자를 찾을 수 없습니다."))
+                    .andExpect(jsonPath("$.message").value(UserErrorMessage.NOT_FOUND.message))
                     .andDo(
                         document(
                             "post-delete/fail/not-found-user",

@@ -1,7 +1,7 @@
 package org.example.codereviewstudy.infrastructure.persistence.post
 
 import jakarta.persistence.*
-import org.example.codereviewstudy.common.model.BaseTimeEntity
+import org.example.codereviewstudy.infrastructure.persistence.model.BaseTimeEntity
 import org.example.codereviewstudy.domain.post.model.Post
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.user.toUser

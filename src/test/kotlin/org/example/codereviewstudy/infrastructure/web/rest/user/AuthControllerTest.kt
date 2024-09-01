@@ -2,10 +2,13 @@ package org.example.codereviewstudy.infrastructure.web.rest.user
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.DescribeSpec
+import org.example.codereviewstudy.common.exception.message.ErrorMessage
+import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.LoginRequest
 import org.example.codereviewstudy.infrastructure.web.rest.user.request.SignupRequest
+import org.example.codereviewstudy.infrastructure.web.rest.user.response.UserSuccessMessage
 import org.example.codereviewstudy.utils.restDocMockMvcBuild
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.hamcrest.Matchers.hasSize
@@ -64,8 +67,8 @@ class AuthControllerTest(
 
                 httpRequest
                     .andExpect(status().isCreated)
-                    .andExpect(jsonPath("$.status").value(201))
-                    .andExpect(jsonPath("$.message").value("회원가입에 성공했습니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.CREATED.value()))
+                    .andExpect(jsonPath("$.message").value(UserSuccessMessage.SIGNUP.message))
                     .andDo(
                         document(
                             "signup/success",
@@ -95,8 +98,8 @@ class AuthControllerTest(
 
                 httpRequest
                     .andExpect(status().isBadRequest)
-                    .andExpect(jsonPath("$.status").value(400))
-                    .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
+                    .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_FAILED.message))
                     .andExpect(jsonPath("$.data", hasSize<Int>(2)))
                     .andExpect(jsonPath("$.data[*].field").value(containsInAnyOrder("username", "password")))
                     .andExpect(
@@ -139,8 +142,8 @@ class AuthControllerTest(
 
                 httpRequest
                     .andExpect(status().isBadRequest)
-                    .andExpect(jsonPath("$.status").value(400))
-                    .andExpect(jsonPath("$.message").value("이미 존재하는 사용자 이름입니다."))
+                    .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
+                    .andExpect(jsonPath("$.message").value(UserErrorMessage.DUPLICATED_USERNAME.message))
                     .andDo(
                         document(
                             "signup/fail/duplicated-username",
@@ -173,7 +176,7 @@ class AuthControllerTest(
                     httpRequest
                         .andExpect(status().isOk)
                         .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
-                        .andExpect(jsonPath("$.message").value("로그인에 성공했습니다."))
+                        .andExpect(jsonPath("$.message").value(UserSuccessMessage.LOGIN.message))
                         .andDo(
                             document(
                                 "login/success",
@@ -207,7 +210,7 @@ class AuthControllerTest(
                     httpRequest
                         .andExpect(status().isBadRequest)
                         .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
-                        .andExpect(jsonPath("$.message").value("사용자 이름 혹은 비밀번호를 다시 확인해주세요."))
+                        .andExpect(jsonPath("$.message").value(ErrorMessage.AUTHENTICATION_FAILED.message))
                         .andDo(
                             document(
                                 "login/fail/not-exists-username",
@@ -239,7 +242,7 @@ class AuthControllerTest(
                     httpRequest
                         .andExpect(status().isBadRequest)
                         .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
-                        .andExpect(jsonPath("$.message").value("사용자 이름 혹은 비밀번호를 다시 확인해주세요."))
+                        .andExpect(jsonPath("$.message").value(ErrorMessage.AUTHENTICATION_FAILED.message))
                         .andDo(
                             document(
                                 "login/fail/not-match-password",

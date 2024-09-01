@@ -3,6 +3,7 @@ package org.example.codereviewstudy.infrastructure.web.rest.post
 import org.example.codereviewstudy.application.post.PostDeleteService
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.example.codereviewstudy.infrastructure.auth.model.AuthUser
+import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -20,9 +21,9 @@ class PostDeleteController(
     fun delete(
         @PathVariable id: Long,
         authUser: AuthUser,
-    ) : ResponseEntity<ApiResponse<Unit>> {
+    ): ResponseEntity<ApiResponse<Unit>> {
         return postDeleteService.delete(id, authUser.id)
-            .let { ApiResponse.success(HttpStatus.OK, "게시글 삭제에 성공했습니다.") }
+            .let { ApiResponse.success(HttpStatus.OK, PostSuccessMessage.DELETED.message) }
             .let { ResponseEntity.status(HttpStatus.OK).body(it) }
     }
 }
