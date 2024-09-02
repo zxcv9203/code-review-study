@@ -7,6 +7,7 @@ import org.example.codereviewstudy.domain.post.port.PostUpdatePort
 import org.example.codereviewstudy.infrastructure.web.rest.post.mapper.toUpdateResponse
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostUpdateRequest
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostUpdateResponse
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class PostUpdateService(
     private val userQueryService: UserQueryService,
+
+    @Qualifier("jpaPostRepository")
     private val postQueryPort: PostQueryPort,
     private val postUpdatePort: PostUpdatePort,
 ) {

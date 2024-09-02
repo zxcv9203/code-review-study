@@ -3,10 +3,10 @@ package org.example.codereviewstudy.infrastructure.web.rest.post
 import org.example.codereviewstudy.application.post.PostQueryService
 import org.example.codereviewstudy.common.model.ApiResponse
 import org.example.codereviewstudy.infrastructure.auth.model.AuthUser
+import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostQueryRequest
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostResponse
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostResponses
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostSuccessMessage
-import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,10 +32,10 @@ class PostQueryController(
 
     @GetMapping
     fun findAll(
-        pageable: Pageable,
+        request: PostQueryRequest,
         authUser: AuthUser
     ): ResponseEntity<ApiResponse<PostResponses>> {
-        return postQueryService.findAll(pageable)
+        return postQueryService.findAll(request)
             .let { ApiResponse.success(HttpStatus.OK, PostSuccessMessage.LIST_GET.message, it) }
             .let { ResponseEntity.status(HttpStatus.OK).body(it) }
     }

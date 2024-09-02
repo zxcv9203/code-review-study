@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.DescribeSpec
 import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
-import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
+import org.example.codereviewstudy.infrastructure.persistence.post.SpringDataJpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
@@ -36,7 +36,7 @@ class PostDeleteControllerTest(
     @Autowired
     private val jwtTokenProvider: JwtTokenProvider,
     @Autowired
-    private val postRepository: JpaPostRepository,
+    private val postRepository: SpringDataJpaPostRepository,
 ) : DescribeSpec({
     val restDocumentation = ManualRestDocumentation()
     val mockMvc = restDocMockMvcBuild(context, restDocumentation)

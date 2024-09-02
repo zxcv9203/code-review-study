@@ -10,8 +10,8 @@ import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.springframework.data.repository.findByIdOrNull
 
 class PostRepositoryTest(
-    private val jpaPostRepository: JpaPostRepository = mockk<JpaPostRepository>(),
-    private val postRepository: PostRepository = PostRepository(jpaPostRepository)
+    private val springDataJpaPostRepository: SpringDataJpaPostRepository = mockk<SpringDataJpaPostRepository>(),
+    private val jpaPostRepository: JpaPostRepository = JpaPostRepository(springDataJpaPostRepository)
 ) : DescribeSpec({
 
     describe("게시글 단일 조회시") {
@@ -19,10 +19,10 @@ class PostRepositoryTest(
             val id = 0L
 
             it("PostNotFoundException이 발생해야 한다") {
-                every { jpaPostRepository.findByIdOrNull(id) } returns null
+                every { springDataJpaPostRepository.findByIdOrNull(id) } returns null
 
                 val exception = shouldThrow<PostNotFoundException> {
-                    postRepository.findById(id)
+                    jpaPostRepository.findById(id)
                 }
 
                 exception.message shouldBe PostErrorMessage.NOT_FOUND.message

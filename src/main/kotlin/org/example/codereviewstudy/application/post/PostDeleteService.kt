@@ -4,12 +4,14 @@ import org.example.codereviewstudy.application.user.UserQueryService
 import org.example.codereviewstudy.domain.post.exception.PostAuthorNotMatchedException
 import org.example.codereviewstudy.domain.post.port.PostQueryPort
 import org.example.codereviewstudy.domain.user.port.PostDeletePort
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
 @Service
 class PostDeleteService(
     private val userQueryService: UserQueryService,
 
+    @Qualifier("jpaPostRepository")
     private val postQueryPort: PostQueryPort,
     private val postDeletePort: PostDeletePort,
 ) {

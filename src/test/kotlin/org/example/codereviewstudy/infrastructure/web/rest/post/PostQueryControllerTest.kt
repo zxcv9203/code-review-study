@@ -3,7 +3,7 @@ package org.example.codereviewstudy.infrastructure.web.rest.post
 import io.kotest.core.spec.style.DescribeSpec
 import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
-import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
+import org.example.codereviewstudy.infrastructure.persistence.post.SpringDataJpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
@@ -38,7 +38,7 @@ class PostQueryControllerTest(
     @Autowired
     private val jwtTokenProvider: JwtTokenProvider,
     @Autowired
-    private val postRepository: JpaPostRepository,
+    private val postRepository: SpringDataJpaPostRepository,
     @Autowired
     private val transaction: TxHelper,
 ) : DescribeSpec({
