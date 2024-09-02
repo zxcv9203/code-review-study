@@ -4,8 +4,8 @@ import org.example.codereviewstudy.application.user.UserQueryService
 import org.example.codereviewstudy.domain.post.port.PostCreatePort
 import org.example.codereviewstudy.infrastructure.auth.model.AuthUser
 import org.example.codereviewstudy.infrastructure.web.rest.post.mapper.toCreateResponse
+import org.example.codereviewstudy.infrastructure.web.rest.post.mapper.toDomain
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostCreateRequest
-import org.example.codereviewstudy.infrastructure.web.rest.post.request.toDomain
 import org.example.codereviewstudy.infrastructure.web.rest.post.response.PostCreateResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

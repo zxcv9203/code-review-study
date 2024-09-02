@@ -8,8 +8,8 @@ import org.example.codereviewstudy.application.user.UserQueryService
 import org.example.codereviewstudy.domain.post.port.PostCreatePort
 import org.example.codereviewstudy.domain.user.model.User
 import org.example.codereviewstudy.infrastructure.auth.model.AuthUser
+import org.example.codereviewstudy.infrastructure.web.rest.post.mapper.toDomain
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostCreateRequest
-import org.example.codereviewstudy.infrastructure.web.rest.post.request.toDomain
 
 class PostCreateServiceTest(
     private val userQueryService: UserQueryService = mockk<UserQueryService>(),
