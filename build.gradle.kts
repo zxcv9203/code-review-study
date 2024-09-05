@@ -65,6 +65,9 @@ dependencies {
     // JooQ
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     jooqGenerator("com.h2database:h2")
+
+    // jackson (isXXX 필드 is 제거 문제 해결 용도)
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 
