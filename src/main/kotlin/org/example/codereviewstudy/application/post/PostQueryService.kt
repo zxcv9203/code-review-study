@@ -20,9 +20,12 @@ class PostQueryService(
     }
 
     fun findAll(request: PostQueryRequest): PostResponses {
-        return postQueryPort.findAllByCursor(request.id, request.size)
-            .map { it.toResponse() }
-            .let { PostResponses(it.isLast, it.content) }
+        val posts = postQueryPort.findAllByCursor(request)
+
+        return PostResponses(
+            posts = posts.content.map { it.toResponse() },
+            isLast = posts.isLast
+        )
     }
 }
 

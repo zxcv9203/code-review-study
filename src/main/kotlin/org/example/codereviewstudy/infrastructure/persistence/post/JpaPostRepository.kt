@@ -1,5 +1,6 @@
 package org.example.codereviewstudy.infrastructure.persistence.post
 
+import org.example.codereviewstudy.common.model.Page
 import org.example.codereviewstudy.domain.post.exception.PostNotFoundException
 import org.example.codereviewstudy.domain.post.model.Post
 import org.example.codereviewstudy.domain.post.port.PostCreatePort
@@ -8,7 +9,7 @@ import org.example.codereviewstudy.domain.post.port.PostUpdatePort
 import org.example.codereviewstudy.domain.user.port.PostDeletePort
 import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toDomain
 import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toJpaEntity
-import org.springframework.data.domain.Page
+import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostQueryRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -28,7 +29,7 @@ class JpaPostRepository(
             ?: throw PostNotFoundException(id)
     }
 
-    override fun findAllByCursor(id: Long, size: Int): Page<Post> {
+    override fun findAllByCursor(request: PostQueryRequest): Page<Post> {
         TODO("Not yet implemented")
     }
 
