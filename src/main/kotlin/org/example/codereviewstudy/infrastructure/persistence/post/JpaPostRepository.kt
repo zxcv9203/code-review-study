@@ -10,10 +10,12 @@ import org.example.codereviewstudy.domain.user.port.PostDeletePort
 import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toDomain
 import org.example.codereviewstudy.infrastructure.persistence.post.mapper.toJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostQueryRequest
+import org.springframework.context.annotation.Primary
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
 @Repository
+@Primary
 class JpaPostRepository(
     private val springDataJpaPostRepository: SpringDataJpaPostRepository,
 ) : PostCreatePort, PostQueryPort, PostUpdatePort, PostDeletePort {
