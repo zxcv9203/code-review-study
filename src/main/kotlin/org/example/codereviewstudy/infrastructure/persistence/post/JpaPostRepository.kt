@@ -1,6 +1,6 @@
 package org.example.codereviewstudy.infrastructure.persistence.post
 
-import org.example.codereviewstudy.common.model.Page
+import org.example.codereviewstudy.common.model.page.Page
 import org.example.codereviewstudy.domain.post.exception.PostNotFoundException
 import org.example.codereviewstudy.domain.post.model.Post
 import org.example.codereviewstudy.domain.post.port.PostCreatePort

@@ -39,4 +39,5 @@ class PostQueryController(
             .let { ApiResponse.success(HttpStatus.OK, PostSuccessMessage.LIST_GET.message, it) }
             .let { ResponseEntity.status(HttpStatus.OK).body(it) }
     }
+
 }

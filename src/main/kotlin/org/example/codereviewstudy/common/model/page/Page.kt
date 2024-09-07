@@ -1,4 +1,4 @@
-package org.example.codereviewstudy.common.model
+package org.example.codereviewstudy.common.model.page
 
 data class Page<T>(
     val content: List<T>,

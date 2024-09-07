@@ -1,6 +1,7 @@
 package org.example.codereviewstudy.infrastructure.web.rest.post
 
 import io.kotest.core.spec.style.DescribeSpec
+import org.example.codereviewstudy.common.exception.message.ErrorMessage
 import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
@@ -201,12 +202,27 @@ class PostQueryControllerTest(
                     get("/api/posts")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer $token")
                         .param("id", post.id.toString())
-                        .param("sortOrder", "asc")
+                        .param("sort", "asc")
                 )
                     .andDo(MockMvcResultHandlers.print())
                     .andExpect(status().isOk)
                     .andExpect(jsonPath("$.data.posts.length()").value(9))
                     .andExpect(jsonPath("$.data.isLast").value(true))
+            }
+        }
+
+        context("정렬 조건을 asc 또는 desc로 하지 않는 경우") {
+            it("400을 반환한다.") {
+                println(post.id.toString())
+                mockMvc.perform(
+                    get("/api/posts")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer $token")
+                        .param("id", post.id.toString())
+                        .param("sort", "invalid")
+                )
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(status().isBadRequest)
+                    .andExpect(jsonPath("$.message").value(ErrorMessage.NOT_MATCHED_SORT_VALUE.message))
             }
         }
     }
