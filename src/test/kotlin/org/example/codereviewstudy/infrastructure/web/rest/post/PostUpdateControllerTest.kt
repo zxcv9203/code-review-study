@@ -7,7 +7,7 @@ import io.kotest.data.row
 import org.example.codereviewstudy.domain.post.exception.model.PostErrorMessage
 import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
-import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
+import org.example.codereviewstudy.infrastructure.persistence.post.SpringDataJpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.post.PostJpaEntity
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
@@ -42,7 +42,7 @@ class PostUpdateControllerTest(
     @Autowired
     private val jwtTokenProvider: JwtTokenProvider,
     @Autowired
-    private val postRepository: JpaPostRepository,
+    private val postRepository: SpringDataJpaPostRepository,
     @Autowired
     private val transaction: TxHelper,
     @Autowired

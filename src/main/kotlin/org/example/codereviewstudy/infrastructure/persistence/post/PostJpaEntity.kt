@@ -2,9 +2,7 @@ package org.example.codereviewstudy.infrastructure.persistence.post
 
 import jakarta.persistence.*
 import org.example.codereviewstudy.infrastructure.persistence.model.BaseTimeEntity
-import org.example.codereviewstudy.domain.post.model.Post
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
-import org.example.codereviewstudy.infrastructure.persistence.user.toUser
 import org.hibernate.annotations.Comment
 
 @Entity
@@ -26,13 +24,3 @@ class PostJpaEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 ) : BaseTimeEntity()
-
-fun PostJpaEntity.toDomain(): Post {
-    return Post(
-        author = author.toUser(),
-        title = title,
-        content = content,
-        createdAt = createdAt,
-        id = id,
-    )
-}

@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS `users`
 
 );
 
-ALTER TABLE `users`
-    ADD INDEX `idx_username` (`username`);
+CREATE INDEX idx_username ON users (username);
 
 CREATE TABLE IF NOT EXISTS `posts`
 (
@@ -23,5 +22,4 @@ CREATE TABLE IF NOT EXISTS `posts`
     FOREIGN KEY (author_id) REFERENCES users (id)
 );
 
-ALTER TABLE `posts`
-    ADD INDEX `idx_post_title` (`title`);
+CREATE INDEX idx_post_title ON posts (title);

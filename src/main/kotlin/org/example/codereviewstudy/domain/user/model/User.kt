@@ -1,7 +1,5 @@
 package org.example.codereviewstudy.domain.user.model
 
-import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
-
 class User(
     var username: String,
 
@@ -10,10 +8,3 @@ class User(
     val id: Long = 0,
 )
 
-fun User.toJpaEntity(): UserJpaEntity {
-    return UserJpaEntity(
-        username = this.username,
-        password = this.password,
-        id = this.id,
-    )
-}

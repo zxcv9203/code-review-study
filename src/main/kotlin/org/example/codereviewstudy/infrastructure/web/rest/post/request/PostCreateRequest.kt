@@ -14,12 +14,3 @@ data class PostCreateRequest(
     @field:NotBlank(message = "게시글 본문 내용을 입력해주세요.")
     val content: String,
 )
-
-fun PostCreateRequest.toDomain(author: User): Post {
-    return Post(
-        title = title,
-        content = content,
-        author = author,
-        createdAt = LocalDateTime.now(),
-    )
-}

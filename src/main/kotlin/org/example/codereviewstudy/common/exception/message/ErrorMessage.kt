@@ -5,6 +5,7 @@ enum class ErrorMessage(
 ) {
     // 400
     VALIDATION_FAILED("잘못된 요청입니다."),
+    NOT_MATCHED_SORT_VALUE("정렬은 내림차순, 오름차순만 가능합니다."),
 
     // 401
     AUTHENTICATION_FAILED("사용자 이름 혹은 비밀번호를 다시 확인해주세요."),

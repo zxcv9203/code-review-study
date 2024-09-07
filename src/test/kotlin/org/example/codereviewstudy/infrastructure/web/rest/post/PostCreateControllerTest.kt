@@ -7,7 +7,7 @@ import io.kotest.data.row
 import org.example.codereviewstudy.common.exception.message.ErrorMessage
 import org.example.codereviewstudy.domain.user.exception.model.UserErrorMessage
 import org.example.codereviewstudy.infrastructure.auth.provider.JwtTokenProvider
-import org.example.codereviewstudy.infrastructure.persistence.post.JpaPostRepository
+import org.example.codereviewstudy.infrastructure.persistence.post.SpringDataJpaPostRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.JpaUserRepository
 import org.example.codereviewstudy.infrastructure.persistence.user.UserJpaEntity
 import org.example.codereviewstudy.infrastructure.web.rest.post.request.PostCreateRequest
@@ -39,7 +39,7 @@ class PostCreateControllerTest(
     @Autowired
     private val jwtTokenProvider: JwtTokenProvider,
     @Autowired
-    private val postRepository: JpaPostRepository,
+    private val postRepository: SpringDataJpaPostRepository,
 ) : DescribeSpec({
 
     val restDocumentation = ManualRestDocumentation()
