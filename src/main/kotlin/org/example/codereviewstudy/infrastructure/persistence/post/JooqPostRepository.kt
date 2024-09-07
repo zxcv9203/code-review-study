@@ -44,7 +44,7 @@ class JooqPostRepository(
             .let { Page(it, posts.size <= request.size) }
     }
 
-    private fun buildIdFilterCondition(request: PostQueryRequest): Condition? {
+    private fun buildIdFilterCondition(request: PostQueryRequest): Condition {
         return if (request.id == null) {
             DSL.noCondition()
         } else {
